@@ -16,6 +16,32 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    CGRect rect = CGRectMake(0,0, 7950, 7950);
+    UIImage *image = [self imageWithColor:[UIColor redColor]];
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
+    UIImage *cropImage = [UIImage imageWithCGImage:imageRef];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:cropImage];
+    
+    
+//    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    UIImage *img = [self imageWithColor:[UIColor redColor]];
+//    // translated rectangle for drawing sub image
+//    CGRect drawRect = CGRectMake(-rect.origin.x, -rect.origin.y, img.size.width, img.size.height);
+//    
+//    // clip to the bounds of the image context
+//    // not strictly necessary as it will get clipped anyway?
+//    CGContextClipToRect(context, CGRectMake(0, 0, rect.size.width, rect.size.height));
+//    
+//    // draw image
+//    [img drawInRect:drawRect];
+//    
+//    // grab image
+//    UIImage *subImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:subImage];
+//    UIGraphicsEndImageContext();
+
+    [self.window.rootViewController.view addSubview:imageView];
     // Override point for customization after application launch.
     return YES;
 }
@@ -40,6 +66,19 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+- (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 8000.0, 8000.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 @end
